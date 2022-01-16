@@ -1,0 +1,41 @@
+<h1>This is the todo page!</h1>
+
+{% comment %} <ul>
+    <li>todo #1</li>
+    <li>todo #2</li>
+</ul> {% endcomment %}
+
+<ul>
+    <!-- for loop to display TodoItem objects -->
+    {% for todo_item in all_items %}
+    <li>{{ todo_item.content }}
+        <!-- when user presses delete button, django is redirected -->
+        <!-- to the /deleteTodo/ directory concatenated with the item's unique id  -->
+        <form action="/deleteTodo/{{todo_item.id}}/" 
+            style="display: inline;"
+            method="post">{% csrf_token %}
+            <input type="submit" value="Delete"/>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+
+<!-- form to add todo items -->
+
+{% comment %} 
+action="/addTodo/" sends a request to the /addTodo/ url
+since we are trying to add to our database, the http method
+should be "post" rather than "get"
+csrf token is secur random token that is used to prevent security attacks
+the token is unique per user session 
+{% endcomment %}
+
+<form action="/addTodo/" method="post">{% csrf_token %}
+    <!-- input tag to add todo items-->
+    <input type="text" name="content"/>
+    <!-- button for the user to add their todo item to the list -->
+    <!-- the button will be labelled with the text "Add" -->
+    <input type="submit" value="Add"/>
+
+    
+
